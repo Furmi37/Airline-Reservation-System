@@ -21,11 +21,6 @@ public class TicketController {
         log.info("Getting all tickets sold by {}", airlines);
         return ticketService.getByAirlines(airlines);
     }
-    @GetMapping("/ticket/{id}")
-    public Ticket getByTicketId (@PathVariable long id){
-        log.info("Getting by {}", id);
-        return ticketService.getById(id);
-    }
 
     @GetMapping("/ticket")
     public List<Ticket> getAll (){
