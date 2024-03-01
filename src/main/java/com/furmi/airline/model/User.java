@@ -11,8 +11,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "tickets")
 @EqualsAndHashCode(exclude = "tickets")
+@ToString(exclude = "tickets")
 public class User {
 
     @Id
@@ -24,8 +24,7 @@ public class User {
     private int age;
     private String gender;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name ="user_id", nullable = false)
     private Set<Ticket> tickets = new HashSet<>();
-
 }
