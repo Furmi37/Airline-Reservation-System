@@ -1,5 +1,6 @@
 package com.furmi.airline.service;
 
+
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.model.User;
 import com.furmi.airline.repository.UserRepository;
@@ -19,6 +20,7 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
+
     public User getById(long id){
         return userRepository.findById(id);
     }
@@ -30,6 +32,4 @@ public class UserService {
         user.getTickets().add(ticket);
         return userRepository.save(user);
     }
-
-
 }

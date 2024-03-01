@@ -4,9 +4,16 @@ import com.furmi.airline.model.User;
 import com.furmi.airline.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @AllArgsConstructor
@@ -14,11 +21,13 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/user/{email}")
+ 
+    @GetMapping("/use/{email}")
     public User getByEmail(@PathVariable String email){
         log.info("Getting user by email {}", email);
         return userService.getUserByEmail(email);
     }
+
     @GetMapping("/user")
     public List<User> getAll(){
         log.info("Getting all users");
@@ -29,6 +38,4 @@ public class UserController {
         log.info("Creating user");
         return userService.createUser(user);
     }
-
-
 }
