@@ -15,6 +15,9 @@ public class TicketService {
     public Ticket getById(long id){
         return ticketRepository.findByTicketId(id);
     }
+    public List<Ticket> getAll(){
+        return ticketRepository.findAll();
+    }
 
     public List<Ticket> getByAirlines (String airlines){
         return ticketRepository.findByAirlines(airlines);

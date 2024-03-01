@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
- 
     @GetMapping("/user/{email}")
     public User getByEmail(@PathVariable String email){
         log.info("Getting user by email {}", email);
@@ -33,11 +32,13 @@ public class UserController {
         log.info("Getting all users");
         return userService.getAllUsers();
     }
+
     @PostMapping("/user")
     public Long createUser(@RequestBody User user) {
         log.info("Creating user");
         return userService.createUser(user);
     }
+
     @PutMapping("/user")
     public Long updateUserFirstName(@RequestParam String email, String firstName){
         log.info("Updating user first name by {}", firstName);
