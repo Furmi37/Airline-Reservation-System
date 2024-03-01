@@ -1,16 +1,10 @@
 package com.furmi.airline.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.*;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
-
-import java.sql.Time;
 
 @Entity
 @AllArgsConstructor
@@ -22,7 +16,7 @@ import java.sql.Time;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ticketId;
+    private Long ticketId;
     private String airlines;
     private String startAirport;
     private String landAirport;
