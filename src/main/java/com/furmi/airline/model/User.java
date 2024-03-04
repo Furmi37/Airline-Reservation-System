@@ -25,8 +25,8 @@ public class User {
     private int age;
     private String gender;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name ="user_id", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id", nullable = false)
     private Set<Ticket> tickets = new HashSet<>();
 
     public User(Long id, String firstName, String lastName, String email, int age, String gender) {
