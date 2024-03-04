@@ -14,22 +14,23 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User getById(long id){
+    public User getById(long id) {
         return userRepository.findById(id);
     }
 
-    public User getUserByEmail(String email){
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public Long createUser(User user){
+
+    public Long createUser(User user) {
         return userRepository.save(user).getId();
     }
 
-    public void deleteUser (User user){
+    public void deleteUser(User user) {
         userRepository.delete(user);
     }
 }

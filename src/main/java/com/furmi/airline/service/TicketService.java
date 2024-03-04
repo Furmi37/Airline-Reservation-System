@@ -24,7 +24,7 @@ public class TicketService {
     }
 
     public List<Ticket> getByLandAirport(String landAirport){
-        return ticketRepository.findAllByLandAirport(landAirport);
+        return ticketRepository.findByLandAirport(landAirport);
     }
 
     public List<Ticket> getByStartDate (String startDate){
