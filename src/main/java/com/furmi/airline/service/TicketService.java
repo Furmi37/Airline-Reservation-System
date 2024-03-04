@@ -23,6 +23,10 @@ public class TicketService {
         return ticketRepository.findByAirlines(airlines);
     }
 
+    public Long createTicket (Ticket ticket){
+        return ticketRepository.save(ticket).getTicketId();
+    }
+
     public List<Ticket> getByLandAirport(String landAirport){
         return ticketRepository.findAllByLandAirport(landAirport);
     }

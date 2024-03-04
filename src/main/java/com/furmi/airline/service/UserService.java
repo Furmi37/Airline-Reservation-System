@@ -20,13 +20,14 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
-
     public User getById(long id){
         return userRepository.findById(id);
     }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
+
     public User setTicketToUserByEmail(String email, Ticket ticket){
         User user = userRepository.findByEmail(email);
         user.getTickets().add(ticket);
