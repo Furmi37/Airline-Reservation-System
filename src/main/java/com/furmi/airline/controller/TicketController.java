@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -19,6 +26,7 @@ public class TicketController {
         log.info("Getting all tickets sold by {}", airlines);
         return ticketService.getByAirlines(airlines);
     }
+
     @GetMapping("/ticket/id/{id}")
     public Ticket getByTicketId (@PathVariable long id){
         log.info("Getting by id {}", id);
@@ -50,4 +58,5 @@ public class TicketController {
         ticket.setLandTime(landTime);
         return ticketService.createTicket(ticket);
     }
+
 }
