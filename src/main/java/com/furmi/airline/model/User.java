@@ -29,4 +29,12 @@ public class User {
     @JoinColumn(name ="user_id", nullable = false)
     private Set<Ticket> tickets = new HashSet<>();
 
+    public User(Long id, String firstName, String lastName, String email, int age, String gender) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.gender = gender;
+    }
 }

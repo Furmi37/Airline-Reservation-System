@@ -13,24 +13,23 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    public User getUserByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
-    public Long createUser(User user){
-        return userRepository.save(user).getId();
-    }
 
     public User getById(long id){
         return userRepository.findById(id);
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
+    public Long createUser(User user){
+        return userRepository.save(user).getId();
+    }
 
-    public User setTicketToUserByEmail(String email, Ticket ticket){
-        User user = userRepository.findByEmail(email);
-        user.getTickets().add(ticket);
-        return userRepository.save(user);
+    public void deleteUser (User user){
+        userRepository.delete(user);
     }
 }

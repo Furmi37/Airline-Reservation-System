@@ -25,15 +25,15 @@ public class UserController {
     private final UserService userService;
     private final TicketService ticketService;
 
-    @GetMapping("/user/{email}")
-    public User getByEmail(@PathVariable String email){
-        log.info("Getting user by email {}", email);
-        return userService.getUserByEmail(email);
-    }
     @GetMapping("/user/id/{id}")
     public User getById(@PathVariable long id){
         log.info("Getting user by id {}", id);
         return userService.getById(id);
+    }
+    @GetMapping("/user/{email}")
+    public User getByEmail(@PathVariable String email){
+        log.info("Getting user by email {}", email);
+        return userService.getUserByEmail(email);
     }
 
     @GetMapping("/user/ticket/{email}")
@@ -69,5 +69,11 @@ public class UserController {
         User user = userService.getUserByEmail(email);
         user.getTickets().add(ticket);
         return userService.createUser(user);
+    }
+
+    @DeleteMapping("/user/delete/{id}")
+    public void deleteUser (@PathVariable long id){
+        User user = userService.getById(id);
+        userService.deleteUser(user);
     }
 }

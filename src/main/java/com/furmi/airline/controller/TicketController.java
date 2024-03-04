@@ -21,16 +21,15 @@ import java.util.List;
 public class TicketController {
     private final TicketService ticketService;
 
-    @GetMapping("/ticket/airlines/{airlines}")
-    public List<Ticket> getByAirlines (@PathVariable String airlines){
-        log.info("Getting all tickets sold by {}", airlines);
-        return ticketService.getByAirlines(airlines);
-    }
-
     @GetMapping("/ticket/id/{id}")
     public Ticket getByTicketId (@PathVariable long id){
         log.info("Getting by id {}", id);
         return ticketService.getById(id);
+    }
+    @GetMapping("/ticket/airlines/{airlines}")
+    public List<Ticket> getByAirlines (@PathVariable String airlines){
+        log.info("Getting all tickets sold by {}", airlines);
+        return ticketService.getByAirlines(airlines);
     }
 
     @GetMapping("/ticket")
@@ -41,8 +40,14 @@ public class TicketController {
 
     @GetMapping("/ticket/landAirport/{landAirport}")
     public List<Ticket> getByLandAirport (@PathVariable String landAirport){
-        log.info("Getting by landing Airport {}", landAirport);
+        log.info("Getting tickets by landing Airport {}", landAirport);
         return ticketService.getByLandAirport(landAirport);
+    }
+
+    @GetMapping("/ticket/startDate/{startDate}")
+    public List<Ticket> getByStartDate (@PathVariable String startDate){
+        log.info("Getting tickets by starting date");
+        return ticketService.getByStartDate(startDate);
     }
 
     @PostMapping("/ticket")
@@ -51,12 +56,17 @@ public class TicketController {
         return ticketService.createTicket(ticket);
     }
     @PutMapping("/ticket/time")
-    public Long updateTicketStartandLandTime (@RequestParam long id, String startTime, String landTime){
-        log.info("Setting new start time {}", startTime);
+    public Long updateTicketStartAndLandTime (@RequestParam long id, String startTime, String landTime){
+        log.info("Setting in ticket new start time {}", startTime);
         Ticket ticket = ticketService.getById(id);
         ticket.setStartTime(startTime);
         ticket.setLandTime(landTime);
         return ticketService.createTicket(ticket);
     }
 
+    @DeleteMapping("/ticket/delete/{id}")
+    public void deleteTicket (@PathVariable long id){
+        Ticket ticket = ticketService.getById(id);
+        ticketService.deleteTicket(ticket);
+    }
 }

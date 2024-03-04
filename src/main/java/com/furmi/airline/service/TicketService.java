@@ -15,16 +15,12 @@ public class TicketService {
     public Ticket getById(long id){
         return ticketRepository.findByTicketId(id);
     }
-    public List<Ticket> getAll(){
-        return ticketRepository.findAll();
-    }
 
     public List<Ticket> getByAirlines (String airlines){
         return ticketRepository.findByAirlines(airlines);
     }
-
-    public Long createTicket (Ticket ticket){
-        return ticketRepository.save(ticket).getTicketId();
+    public List<Ticket> getAll(){
+        return ticketRepository.findAll();
     }
 
     public List<Ticket> getByLandAirport(String landAirport){
@@ -33,5 +29,13 @@ public class TicketService {
 
     public List<Ticket> getByStartDate (String startDate){
         return ticketRepository.findByStartDate(startDate);
+    }
+
+    public Long createTicket (Ticket ticket){
+        return ticketRepository.save(ticket).getTicketId();
+    }
+
+    public void deleteTicket (Ticket ticket){
+        ticketRepository.delete(ticket);
     }
 }
