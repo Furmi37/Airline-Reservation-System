@@ -3,11 +3,14 @@ package com.furmi.airline.service;
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.model.User;
 import com.furmi.airline.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,7 +39,6 @@ class UserServiceTest {
     void shouldGetUserByEmail() {
         //given
         String email = "monthy@gmail.com";
-        Ticket ticket = new Ticket(1L,"Wizz air","Rome", "Cracow", "2024-02-29", "14:00","2024-02-29","15:49");
         User user = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
         when(userRepository.findByEmail(email)).thenReturn(user);
         //when
@@ -47,14 +49,38 @@ class UserServiceTest {
     }
 
     @Test
-    void getAllUsers() {
+    void shouldGetTwoUsersByUserRepositoryFindAll() {
+        //given
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        User user2 = new User(2L,"Steven", "Gerrard", "steven@gmail.com", 42, "male");
+        List<User> users = List.of(user1,user2);
+        when(userRepository.findAll()).thenReturn(users);
+        //when
+        List<User> allUsers = userService.getAllUsers();
+        //then
+        verify(userRepository,times(1)).findAll();
+        assertEquals(users,allUsers);
     }
 
     @Test
-    void createUser() {
+    void shouldCreateUser() {
+        //given
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        when(userRepository.save(user1)).thenReturn(user1);
+        //when
+        Long userResult = userService.createUser(user1);
+        //then
+        verify(userRepository,times(1)).save(user1);
+        assertEquals(1,userResult);
     }
 
     @Test
-    void deleteUser() {
+    void shouldDeleteUser() {
+        //given
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        //when
+        userService.deleteUser(user1);
+        //then
+        verify(userRepository,times(1)).delete(user1);
     }
 }
