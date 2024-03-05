@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,10 +25,10 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void getUserById() {
+    void shouldGetUserById() {
         //given
         long id = 1L;
-        User user = new User(id,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        User user = new User(id,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userRepository.findById(id)).thenReturn(user);
         //when
         User userResult = userService.getById(id);
@@ -39,7 +40,7 @@ class UserServiceTest {
     void shouldGetUserByEmail() {
         //given
         String email = "monthy@gmail.com";
-        User user = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        User user = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userRepository.findByEmail(email)).thenReturn(user);
         //when
         User userResult = userService.getUserByEmail(email);
@@ -51,8 +52,8 @@ class UserServiceTest {
     @Test
     void shouldGetTwoUsersByUserRepositoryFindAll() {
         //given
-        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
-        User user2 = new User(2L,"Steven", "Gerrard", "steven@gmail.com", 42, "male");
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
+        User user2 = new User(2L,"Steven", "Gerrard", "steven@gmail.com", 42, "male", new HashSet<>());
         List<User> users = List.of(user1,user2);
         when(userRepository.findAll()).thenReturn(users);
         //when
@@ -65,7 +66,7 @@ class UserServiceTest {
     @Test
     void shouldCreateUser() {
         //given
-        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userRepository.save(user1)).thenReturn(user1);
         //when
         Long userResult = userService.createUser(user1);
@@ -77,7 +78,7 @@ class UserServiceTest {
     @Test
     void shouldDeleteUser() {
         //given
-        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male");
+        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         //when
         userService.deleteUser(user1);
         //then

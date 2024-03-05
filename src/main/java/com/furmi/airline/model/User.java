@@ -13,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "tickets")
 @ToString(exclude = "tickets")
-
 public class User {
 
     @Id
@@ -28,13 +27,4 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     private Set<Ticket> tickets = new HashSet<>();
-
-    public User(Long id, String firstName, String lastName, String email, int age, String gender) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-        this.gender = gender;
-    }
 }
