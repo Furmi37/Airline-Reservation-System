@@ -4,6 +4,9 @@
 This project was made while I was learning programming.
 ### Technologies:
 - Java (20.0)
+- Spring
+- Spring Data JPA
+- REST
 - Maven
 - InteliJ IDEA
 - MySQL 
@@ -11,7 +14,6 @@ This project was made while I was learning programming.
 - Mockito 
 - JUnit5
 - Lombok
-- Spring
 - Postman
 - JSON
 
