@@ -26,8 +26,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Long createUser(User user) {
-        return userRepository.save(user).getId();
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     public void deleteUser(User user) {

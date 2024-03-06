@@ -49,13 +49,13 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public Long createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
         log.info("Creating user");
         return userService.createUser(user);
     }
 
     @PutMapping("/user/firstname")
-    public Long updateUserFirstName(@RequestParam String firstName, String email){
+    public User updateUserFirstName(@RequestParam String firstName, String email){
         log.info("Updating user first name by {}", firstName);
         User user = userService.getUserByEmail(email);
         user.setFirstName(firstName);
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PutMapping("/user/ticket")
-    public Long addTicketToUserByEmail (@RequestParam String email, long ticketId){
+    public User addTicketToUserByEmail (@RequestParam String email, long ticketId){
         Ticket ticket = ticketService.getById(ticketId);
         log.info("Adding ticket " + ticket.getTicketId() + " to user with email: + {}", email);
         User user = userService.getUserByEmail(email);

@@ -1,5 +1,6 @@
 package com.furmi.airline.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.model.User;
 import com.furmi.airline.service.TicketService;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.NotNull;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,6 +28,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,12 +37,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
     @Mock
     private UserService userService;
+    @Mock
     private TicketService ticketService;
 
     @InjectMocks
     private UserController userController;
 
     private MockMvc mockMvc;
+
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
@@ -50,7 +57,7 @@ class UserControllerTest {
         User user = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userService.getById(1L)).thenReturn(user);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/id/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.email").value("monthy@gmail.com"))
@@ -67,6 +74,7 @@ class UserControllerTest {
         when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/monthy@gmail.com"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.email").value("monthy@gmail.com"))
@@ -111,10 +119,10 @@ class UserControllerTest {
 
     @Test
     void shouldReturnThreeUsersFromServiceWhenGetAll() throws Exception {
-        User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
-        User user2 = new User(2L,"Steven", "Gerrard", "steven@gmail.com", 42, "male", new HashSet<>());
-        User user3 = new User(3L,"Martin", "Schmitt", "martin@gmail.com", 45, "male", new HashSet<>());
-        List<User> users = Arrays.asList(user1,user2,user3);
+        User user1 = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
+        User user2 = new User(2L, "Steven", "Gerrard", "steven@gmail.com", 42, "male", new HashSet<>());
+        User user3 = new User(3L, "Martin", "Schmitt", "martin@gmail.com", 45, "male", new HashSet<>());
+        List<User> users = Arrays.asList(user1, user2, user3);
 
         when(userService.getAllUsers()).thenReturn(users);
 
@@ -153,7 +161,6 @@ class UserControllerTest {
         verify(userService, times(1)).createUser(eq(user));
     }
 
-
     @Test
     void shouldCallUserServiceWhenDeleteUser() throws Exception {
         long id = 1L;
@@ -161,6 +168,6 @@ class UserControllerTest {
         when(userService.getById(id)).thenReturn(user);
         mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", id));
 
-        verify(userService,times(1)).deleteUser(user);
+        verify(userService, times(1)).deleteUser(user);
     }
 }
