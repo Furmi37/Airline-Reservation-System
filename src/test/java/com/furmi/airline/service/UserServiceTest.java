@@ -69,10 +69,10 @@ class UserServiceTest {
         User user1 = new User(1L,"Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userRepository.save(user1)).thenReturn(user1);
         //when
-        Long userResult = userService.createUser(user1);
+        User userResult = userService.createUser(user1);
         //then
         verify(userRepository,times(1)).save(user1);
-        assertEquals(1,userResult);
+        assertEquals(user1,userResult);
     }
 
     @Test
