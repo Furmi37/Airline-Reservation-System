@@ -2,6 +2,7 @@ package com.furmi.airline.controller;
 
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.model.User;
+import com.furmi.airline.service.TicketService;
 import com.furmi.airline.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
     @Mock
     private UserService userService;
+    private TicketService ticketService;
 
     @InjectMocks
     private UserController userController;
@@ -64,7 +66,7 @@ class UserControllerTest {
         User user = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/monthy@gmail.com"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/monthy@gmail.com"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.email").value("monthy@gmail.com"))
@@ -73,7 +75,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.age").value(26))
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andReturn();
-
     }
 
     @Test
@@ -150,5 +151,16 @@ class UserControllerTest {
                 .andExpect(status().isOk());
 
         verify(userService, times(1)).createUser(eq(user));
+    }
+
+
+    @Test
+    void shouldCallUserServiceWhenDeleteUser() throws Exception {
+        long id = 1L;
+        User user = new User(id, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
+        when(userService.getById(id)).thenReturn(user);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", id));
+
+        verify(userService,times(1)).deleteUser(user);
     }
 }
