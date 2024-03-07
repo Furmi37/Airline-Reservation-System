@@ -3,16 +3,19 @@ package com.furmi.airline.service;
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.repository.TicketRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class TicketService {
     private final TicketRepository ticketRepository;
 
     public Ticket getById(long id) {
+        log.info("Debug");
         return ticketRepository.findByTicketId(id);
     }
 
