@@ -54,12 +54,12 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PutMapping("/user/firstname")
-    public User updateUserFirstName(@RequestParam String firstName, String email){
+    @PutMapping("/user/update/{firstName}/{email}")
+    public User updateUserFirstName(@PathVariable String firstName, @PathVariable String email){
         log.info("Updating user first name by {}", firstName);
         User user = userService.getUserByEmail(email);
         user.setFirstName(firstName);
-        return userService.createUser(user);
+        return userService.updateUser(user);
     }
 
     @PutMapping("/user/ticket")
