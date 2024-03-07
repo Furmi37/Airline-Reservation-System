@@ -24,6 +24,7 @@ public class TicketService {
     }
 
     public List<Ticket> getAll() {
+        log.info("Get all tickets");
         return ticketRepository.findAll();
     }
 
