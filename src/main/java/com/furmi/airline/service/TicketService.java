@@ -15,7 +15,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
 
     public Ticket getById(long id) {
-        log.info("Debug");
+        log.info("Getting ticket by id: " + id);
         return ticketRepository.findByTicketId(id);
     }
 
