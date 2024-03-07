@@ -26,24 +26,25 @@ public class UserController {
     private final TicketService ticketService;
 
     @GetMapping("/user/id/{id}")
-    public User getById(@PathVariable long id){
+    public User getById(@PathVariable long id) {
         log.info("Getting user by id {}", id);
         return userService.getById(id);
     }
+
     @GetMapping("/user/{email}")
-    public User getByEmail(@PathVariable String email){
+    public User getByEmail(@PathVariable String email) {
         log.info("Getting user by email {}", email);
         return userService.getUserByEmail(email);
     }
 
     @GetMapping("/user/ticket/{email}")
-    public Set<Ticket> getTicketsByUserEmail(@PathVariable String email){
+    public Set<Ticket> getTicketsByUserEmail(@PathVariable String email) {
         User user = userService.getUserByEmail(email);
         return user.getTickets();
     }
 
     @GetMapping("/user")
-    public List<User> getAll(){
+    public List<User> getAll() {
         log.info("Getting all users");
         return userService.getAllUsers();
     }
@@ -54,25 +55,25 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PutMapping("/user/update/{firstName}/{email}")
-    public User updateUserFirstName(@PathVariable String firstName, @PathVariable String email){
+    @PutMapping("/user/update")
+    public User updateUserFirstName(@RequestParam String firstName, String email) {
         log.info("Updating user first name by {}", firstName);
         User user = userService.getUserByEmail(email);
         user.setFirstName(firstName);
-        return userService.updateUser(user);
+        return userService.createUser(user);
     }
 
     @PutMapping("/user/ticket")
-    public User addTicketToUserByEmail (@RequestParam String email, long ticketId){
+    public User addTicketToUserByEmail(@RequestParam String email, long ticketId) {
         Ticket ticket = ticketService.getById(ticketId);
-        log.info("Adding ticket " + ticket.getTicketId() + " to user with email: + {}", email);
+        log.info("Adding ticket " + ticket.getTicketId() + " to user with email: {}", email);
         User user = userService.getUserByEmail(email);
         user.getTickets().add(ticket);
         return userService.createUser(user);
     }
 
     @DeleteMapping("/user/delete/{id}")
-    public void deleteUser (@PathVariable long id){
+    public void deleteUser(@PathVariable long id) {
         User user = userService.getById(id);
         userService.deleteUser(user);
     }

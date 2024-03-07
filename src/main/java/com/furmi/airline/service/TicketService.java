@@ -12,30 +12,31 @@ import java.util.List;
 public class TicketService {
     private final TicketRepository ticketRepository;
 
-    public Ticket getById(long id){
+    public Ticket getById(long id) {
         return ticketRepository.findByTicketId(id);
     }
 
-    public List<Ticket> getByAirlines (String airlines){
+    public List<Ticket> getByAirlines(String airlines) {
         return ticketRepository.findByAirlines(airlines);
     }
-    public List<Ticket> getAll(){
+
+    public List<Ticket> getAll() {
         return ticketRepository.findAll();
     }
 
-    public List<Ticket> getByLandAirport(String landAirport){
+    public List<Ticket> getByLandAirport(String landAirport) {
         return ticketRepository.findByLandAirport(landAirport);
     }
 
-    public List<Ticket> getByStartDate (String startDate){
+    public List<Ticket> getByStartDate(String startDate) {
         return ticketRepository.findByStartDate(startDate);
     }
 
-    public Long createTicket (Ticket ticket){
-        return ticketRepository.save(ticket).getTicketId();
+    public Ticket createTicket(Ticket ticket) {
+        return ticketRepository.save(ticket);
     }
 
-    public void deleteTicket (Ticket ticket){
+    public void deleteTicket(Ticket ticket) {
         ticketRepository.delete(ticket);
     }
 }

@@ -46,8 +46,9 @@ class UserControllerTest {
     private UserController userController;
 
     private MockMvc mockMvc;
+    User user = new User(null, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
+    Ticket t1 = new Ticket(1L, "Wizz air", "Rome", "Cracow", "2024-02-29", "14:00", "2024-02-29", "15:49");
 
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
@@ -56,7 +57,7 @@ class UserControllerTest {
 
     @Test
     void shouldReturnUserWhenGetUserById() throws Exception {
-        User user = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
+        user.setId(1L);
         when(userService.getById(1L)).thenReturn(user);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/id/1"))
@@ -72,7 +73,6 @@ class UserControllerTest {
 
     @Test
     void shouldReturnUserFromServiceWhenGetByEmail() throws Exception {
-        User user = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/monthy@gmail.com"))
@@ -89,8 +89,6 @@ class UserControllerTest {
 
     @Test
     void shouldReturnTicketsWhenGetByUserEmail() throws Exception {
-        User user = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
-        Ticket t1 = new Ticket(1L, "Wizz air", "Rome", "Cracow", "2024-02-29", "14:00", "2024-02-29", "15:49");
         Ticket t2 = new Ticket(2L, "Buzz", "Berlin", "Warsaw", "2024-02-29", "16:00", "2024-02-29", "16:49");
 
         when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
@@ -121,10 +119,9 @@ class UserControllerTest {
 
     @Test
     void shouldReturnThreeUsersFromServiceWhenGetAll() throws Exception {
-        User user1 = new User(1L, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         User user2 = new User(2L, "Steven", "Gerrard", "steven@gmail.com", 42, "male", new HashSet<>());
         User user3 = new User(3L, "Martin", "Schmitt", "martin@gmail.com", 45, "male", new HashSet<>());
-        List<User> users = Arrays.asList(user1, user2, user3);
+        List<User> users = Arrays.asList(user, user2, user3);
 
         when(userService.getAllUsers()).thenReturn(users);
 
@@ -153,8 +150,6 @@ class UserControllerTest {
 
     @Test
     void shouldCallCreateUserOneTimeWhenCreateUser() throws Exception {
-        User user = new User(null, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
-
         mockMvc.perform(MockMvcRequestBuilders.post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\":\"Monthy\",\"lastName\":\"Python\",\"email\":\"monthy@gmail.com\",\"age\":\"26\",\"gender\":\"male\"}"))
@@ -164,9 +159,50 @@ class UserControllerTest {
     }
 
     @Test
+    void shouldCallCreateUserOneTimeWhenUpdateUserFirstName() throws Exception {
+        String firstName = "Martin";
+        when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
+        user.setFirstName(firstName);
+        when(userService.createUser(user)).thenReturn(user);
+
+        mockMvc.perform(put("/user/update")
+                        .param("firstName", firstName)
+                        .param("email", "monthy@gmail.com")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"firstName\":\"Martin\",\"lastName\":\"Python\",\"email\":\"monthy@gmail.com\",\"age\":\"26\",\"gender\":\"male\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value(user.getFirstName()))
+                .andDo(print());
+
+        verify(userService, times(1)).createUser(user);
+    }
+
+    @Test
+    void shouldCallCreateUserOneTimeWhenAddTicketToUser() throws Exception {
+        when(ticketService.getById(1L)).thenReturn(t1);
+        when(userService.getUserByEmail("monthy@gmail.com")).thenReturn(user);
+        user.getTickets().add(t1);
+        when(userService.createUser(user)).thenReturn(user);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/user/ticket")
+                        .param("email", "monthy@gmail.com")
+                        .param("ticketId", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"firstName\":\"Martin\",\"lastName\":\"Python\",\"email\":\"monthy@gmail.com\",\"age\":\"26\",\"gender\":\"male\"," +
+                                "\"tickets\": {\"airlines\":\"Wizz air\", \"startAirport\": \"Cracow\",\"startDate\":\"2024-02-29\",\"startTime\":\"14:00\",\"landDate\":\"2024-02-29\",\"landTime\": \"15:49\"}}"))
+                .andExpect(jsonPath("$.firstName").value("Monthy"))
+                .andExpect(jsonPath("$.lastName").value("Python"))
+                .andExpect(jsonPath("$.email").value("monthy@gmail.com"))
+                .andExpect(jsonPath("$.age").value(26))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andDo(print());
+
+        verify(userService, times(1)).createUser(user);
+    }
+
+    @Test
     void shouldCallUserServiceWhenDeleteUser() throws Exception {
         long id = 1L;
-        User user = new User(id, "Monthy", "Python", "monthy@gmail.com", 26, "male", new HashSet<>());
         when(userService.getById(id)).thenReturn(user);
         mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{id}", id));
 
