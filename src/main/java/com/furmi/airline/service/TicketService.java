@@ -20,7 +20,7 @@ public class TicketService {
     }
 
     public List<Ticket> getByAirlines(String airlines) {
-        log.info("Getting by aitlines: " + airlines);
+        log.info("Getting by airlines: " + airlines);
         return ticketRepository.findByAirlines(airlines);
     }
 
@@ -30,6 +30,7 @@ public class TicketService {
     }
 
     public List<Ticket> getByLandAirport(String landAirport) {
+        log.info("Get by land airport" + landAirport);
         return ticketRepository.findByLandAirport(landAirport);
     }
 
