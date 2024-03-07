@@ -20,6 +20,7 @@ public class TicketService {
     }
 
     public List<Ticket> getByAirlines(String airlines) {
+        log.info("Getting by aitlines: " + airlines);
         return ticketRepository.findByAirlines(airlines);
     }
 
