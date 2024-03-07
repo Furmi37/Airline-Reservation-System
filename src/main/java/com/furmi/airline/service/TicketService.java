@@ -35,6 +35,7 @@ public class TicketService {
     }
 
     public List<Ticket> getByStartDate(String startDate) {
+        log.info("Get by start date" + startDate);
         return ticketRepository.findByStartDate(startDate);
     }
 
