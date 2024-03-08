@@ -1,7 +1,6 @@
 package com.furmi.airline.service;
 
 
-import com.furmi.airline.model.Ticket;
 import com.furmi.airline.model.User;
 import com.furmi.airline.repository.UserRepository;
 import lombok.AllArgsConstructor;

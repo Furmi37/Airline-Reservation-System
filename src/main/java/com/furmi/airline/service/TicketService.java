@@ -3,39 +3,32 @@ package com.furmi.airline.service;
 import com.furmi.airline.model.Ticket;
 import com.furmi.airline.repository.TicketRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 public class TicketService {
     private final TicketRepository ticketRepository;
 
     public Ticket getById(long id) {
-        log.info("Getting ticket by id: " + id);
         return ticketRepository.findByTicketId(id);
     }
 
     public List<Ticket> getByAirlines(String airlines) {
-        log.info("Getting by airlines: " + airlines);
         return ticketRepository.findByAirlines(airlines);
     }
 
     public List<Ticket> getAll() {
-        log.info("Get all tickets");
         return ticketRepository.findAll();
     }
 
     public List<Ticket> getByLandAirport(String landAirport) {
-        log.info("Get by land airport" + landAirport);
         return ticketRepository.findByLandAirport(landAirport);
     }
 
     public List<Ticket> getByStartDate(String startDate) {
-        log.info("Get by start date" + startDate);
         return ticketRepository.findByStartDate(startDate);
     }
 
