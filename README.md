@@ -18,7 +18,7 @@ This project was made while I was learning programming.
 - JSON
 
 ### Features
-Project in which you create users and tickets. You can reserve a ticket for plane, update user and ticket informations. Next function is showing ticket for user and showing all clients who have departure on the selected date. You can also delete the selected user, ticket or all of data.
+Project in which you create users and tickets. You can reserve a ticket for plane, update user and ticket informations. Next function is showing ticket for user and showing all clients who have departure on the selected date. You can also delete the selected user and ticket.
 
 ### Requirements
 - Java [20]
