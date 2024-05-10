@@ -18,46 +18,47 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@RequestMapping("/ticket")
 public class TicketController {
     private final TicketService ticketService;
 
-    @GetMapping("/ticket/id/{id}")
+    @GetMapping("/id/{id}")
     public Ticket getByTicketId(@PathVariable long id) {
         log.info("Getting by id {}", id);
         return ticketService.getById(id);
     }
 
-    @GetMapping("/ticket/airlines/{airlines}")
+    @GetMapping("/airlines/{airlines}")
     public List<Ticket> getByAirlines(@PathVariable String airlines) {
         log.info("Getting all tickets sold by {}", airlines);
         return ticketService.getByAirlines(airlines);
     }
 
-    @GetMapping("/ticket")
+    @GetMapping
     public List<Ticket> getAll() {
         log.info("Getting all tickets");
         return ticketService.getAll();
     }
 
-    @GetMapping("/ticket/landAirport/{landAirport}")
+    @GetMapping("/landAirport/{landAirport}")
     public List<Ticket> getByLandAirport(@PathVariable String landAirport) {
         log.info("Getting tickets by landing Airport {}", landAirport);
         return ticketService.getByLandAirport(landAirport);
     }
 
-    @GetMapping("/ticket/startDate/{startDate}")
+    @GetMapping("/startDate/{startDate}")
     public List<Ticket> getByStartDate(@PathVariable String startDate) {
         log.info("Getting tickets by starting date");
         return ticketService.getByStartDate(startDate);
     }
 
-    @PostMapping("/ticket")
+    @PostMapping
     public Ticket createTicket(@RequestBody Ticket ticket) {
         log.info("Creating ticket to {}", ticket.getLandAirport());
         return ticketService.createTicket(ticket);
     }
 
-    @PutMapping("/ticket/time")
+    @PutMapping("/time")
     public Ticket updateTicketStartAndLandTime(@RequestParam long ticketId, String startTime, String landTime) {
         log.info("Setting in ticket new start time {}", startTime);
         Ticket ticket = ticketService.getById(ticketId);
@@ -66,7 +67,7 @@ public class TicketController {
         return ticketService.createTicket(ticket);
     }
 
-    @DeleteMapping("/ticket/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteTicket(@PathVariable long id) {
         Ticket ticket = ticketService.getById(id);
         ticketService.deleteTicket(ticket);
