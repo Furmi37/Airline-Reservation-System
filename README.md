@@ -23,4 +23,5 @@ Project in which you create users and tickets. You can reserve a ticket for plan
 ### Requirements
 - Java [20]
 - Postman
+- Maven 3.6.9
 
