@@ -3,7 +3,7 @@
 
 This project was made while I was learning programming.
 ### Technologies:
-- Java (20.0)
+- Java (17.0)
 - Spring
 - Spring Data JPA
 - REST
@@ -21,7 +21,7 @@ This project was made while I was learning programming.
 Project in which you create users and tickets. You can reserve a ticket for plane, update user and ticket informations. Next function is showing ticket for user and showing all clients who have departure on the selected date. You can also delete the selected user and ticket.
 
 ### Requirements
-- Java [20]
+- Java [17]
 - Postman
 - Maven 3.6.9
 
